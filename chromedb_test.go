@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"time"
-
 	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
 )
@@ -63,14 +62,10 @@ func main() {
 }
 
 func listen_for_network_event(ctx context.Context) {
-	chromedp.ListenTarget(ctx, func(ev interface{}) {
-		switch ev := ev.(type) {
-		case *network.EventRequestWillBeSent:
-			req := ev.Request
-			if len(req) == 0 {
-				return ""
-			}
+chromedp.ListenTarget(ctx, func(ev interface{}) {
+	switch ev := ev.(type){
 
-		}
-	})
+	}
+	}
+})
 }
