@@ -36,26 +36,13 @@ func main() {
 	ctx, cancel = context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
-	var request network.EventRequestWillBeSentExtraInfo
-
-	err := chromedp.Run(ctx, network.Enable(), chromedp.Navigate("https://www.albertsons.com/shop/search-results.html?q=egg"))
+var text string
+	err := chromedp.Run(ctx, network.Enable(), chromedp.Navigate("https://www.albertsons.com/shop/search-results.html?q=egg"),chromedp.TextContent(`span.sr-only`, &text, chromedp.NodeVisible),)
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
 	}
-
-	listen_for_network_event(ctx)
+fmt.Println(text)
 
 }
 
-func listen_for_network_event(ctx context.Context) {
-
-	chromedp.ListenTarget(ctx, func(ev interface{}) {
-		switch ev := ev.(type) {
-		case *network.EventRequestWillBeSentExtraInfo:
-			if len(ev.Headers) > 0 {
-				fmt.Println(ev.Headers)
-			}
-		}
-	})
-}
